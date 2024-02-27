@@ -1,30 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Target Name="ImportReleaseNotes" BeforeTargets="GenerateNuspec">
-        <ReadLinesFromFile File="..\..\.github\workflows\ReleaseNotes.md">
-            <Output TaskParameter="Lines" ItemName="ReleaseNotes" />
-        </ReadLinesFromFile>
-        <PropertyGroup>
-            <PackageReleaseNotes>@(ReleaseNotes, '%0a')</PackageReleaseNotes>
-        </PropertyGroup>
-    </Target>
-
     <PropertyGroup>
         <TargetFrameworks>netstandard1.3;netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
         <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net452;net461;net48</TargetFrameworks>
         <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' AND '$(MSBuildRuntimeType)' != 'Core' ">$(TargetFrameworks);uap10.0</TargetFrameworks>
-        <LangVersion>7.3</LangVersion>
-        <AssemblyName>MQTTnet</AssemblyName>
-        <RootNamespace>MQTTnet</RootNamespace>
+        
+        <AssemblyName>MQTTnet.Extensions.WebSocket4Net</AssemblyName>
+        <RootNamespace>MQTTnet.Extensions.WebSocket4Net</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Company>The contributors of MQTTnet</Company>
         <Product>MQTTnet</Product>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <Description>MQTTnet is a high performance .NET library for MQTT based communication. It provides a MQTT client and a MQTT server (broker) and supports v3.1.0, v3.1.1 and v5.0.0 of the MQTT protocol.</Description>
+        <Description>This is an extension library which allows using _WebSocket4Net_ as transport for MQTTnet clients.</Description>
         <Authors>The contributors of MQTTnet</Authors>
-        <PackageId>MQTTnet</PackageId>
-        <DelaySign>false</DelaySign>
+        <PackageId>MQTTnet.Extensions.WebSocket4Net</PackageId>
         <SignAssembly>false</SignAssembly>
+        <DelaySign>false</DelaySign>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -40,12 +30,14 @@
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReleaseNotes>For release notes please go to MQTTnet release notes (https://www.nuget.org/packages/MQTTnet/).</PackageReleaseNotes>
         <DisableImplicitAspNetCoreAnalyzers>true</DisableImplicitAspNetCoreAnalyzers>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>1591;NETSDK1138</NoWarn>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>7.3</LangVersion>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(TargetFramework)'=='uap10.0'">
+    <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
         <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
         <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
         <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
@@ -58,35 +50,23 @@
         <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-        <DebugType>Full</DebugType>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-      <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    </PropertyGroup>
-
     <ItemGroup>
         <None Include="..\..\Images\nuget.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
     </ItemGroup>
-
+    
     <ItemGroup>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
-        <PackageReference Include="System.Net.Security" Version="4.3.2" />
-        <PackageReference Include="System.Net.WebSockets" Version="4.3.0" />
-        <PackageReference Include="System.Net.WebSockets.Client" Version="4.3.2" />
+    <ItemGroup>
+        <PackageReference Include="WebSocket4Net" Version="0.15.2" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)'=='uap10.0'">
-        <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.10" />
+    <ItemGroup>
+        <ProjectReference Include="..\MQTTnet\MQTTnet.csproj" />
     </ItemGroup>
 
 </Project>

@@ -296,6 +296,3 @@ __pycache__/
 Build/NuGet/
 
 Build/nuget.exe
-
-#tls file: server.cert.pem / server.key.pem
-/Source/MQTTnet.Start/*.pem
