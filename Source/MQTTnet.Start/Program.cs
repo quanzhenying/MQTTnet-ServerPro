@@ -8,8 +8,8 @@ using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 
-var sc = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "server-cert.pem");
-var sk = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "server-key.pem");
+var sc = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cert", "server-cert.pem");
+var sk = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cert", "server-key.pem");
 var serverCert = X509Certificate2.CreateFromPemFile(sc, sk);
 
 //1883
@@ -34,31 +34,8 @@ var options = new MqttServerOptionsBuilder()
                .WithConnectionBacklog(10000000) //单机最大连接数1000万
                .Build();
 
-//var options2 = new MqttServerOptionsBuilder()
-//               .WithDefaultEndpoint()
-//               .WithDefaultEndpointPort(16102)
-//               .WithDefaultEndpointBoundIPAddress(IPAddress.Any)
-
-//               .WithTcpKeepAliveTime(60)
-//               .WithTcpKeepAliveRetryCount(3)
-//               .WithTcpKeepAliveInterval(30)
-
-//               .WithPersistentSessions(true) //持续会话 支持QoS 2实现掉线缓冲（并没有持久化）
-//               .WithMaxPendingMessagesPerClient(10000000) //每终端主题最大缓冲1000万
-//               .WithConnectionBacklog(10000000) //单机最大连接数1000万
-//               .Build();
-
-var logger = new MyLogger();
-//var listener1 = new MqttTcpServerAdapter();
-//await listener1.StartAsync(options2, logger);
-////await listener1.StopAsync();
-//listener1.Dispose();
-
-
-Console.WriteLine("-----------------");
 var factory = new MqttFactory();
-
-using var server = factory.CreateMqttServer(options, logger);
+using var server = factory.CreateMqttServer(options, new MyLogger());
 
 server.ValidatingConnectionAsync += (async arg =>
 {
@@ -77,12 +54,6 @@ server.ClientAcknowledgedPublishPacketAsync += (async arg =>
 
 await server.StartAsync();
 
-//unack 未被回复确认的缓冲数据
-//Server._clientSessionsManager._subscriberSessions._unacknowledgedPublishPackets
-
-
-
-Console.WriteLine("Hello, World!");
 Console.ReadLine();
 Console.ReadLine();
 Console.ReadLine();

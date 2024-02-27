@@ -35,6 +35,7 @@ namespace MQTTnet.Diagnostics
 #elif NET7_0
                 return "net7.0";
 #endif
+                return "net8.0";
             }
         }
     }

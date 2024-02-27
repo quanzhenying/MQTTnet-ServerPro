@@ -14,19 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ca-cert.pem">
+    <None Update="cert\ca-cert.pem">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="client-cert.pem">
+    <None Update="cert\client-cert.pem">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="client-key.pem">
+    <None Update="cert\client-key.pem">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="server-cert.pem">
+    <None Update="cert\server-cert.pem">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="server-key.pem">
+    <None Update="cert\server-key.pem">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
